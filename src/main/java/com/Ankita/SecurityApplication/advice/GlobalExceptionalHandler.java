@@ -1,8 +1,10 @@
 package com.Ankita.SecurityApplication.advice;
 
 import com.Ankita.SecurityApplication.Exception.ResourceNotFoundException;
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -18,8 +20,14 @@ public class GlobalExceptionalHandler {
         return new ResponseEntity<>(apiError,HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ApiError> handleAuthenticationException(AuthenticationException ex){
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiError> handleAuthenticationException(BadCredentialsException ex){
+        ApiError apierror=new ApiError(ex.getLocalizedMessage(),HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(apierror,HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<ApiError> handleJwtException(JwtException ex){
         ApiError apierror=new ApiError(ex.getLocalizedMessage(),HttpStatus.UNAUTHORIZED);
         return new ResponseEntity<>(apierror,HttpStatus.UNAUTHORIZED);
     }
