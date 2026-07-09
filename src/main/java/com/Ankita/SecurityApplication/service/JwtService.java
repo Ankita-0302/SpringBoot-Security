@@ -20,6 +20,7 @@ public class JwtService {
     private String jwtSecretKey;
 
     private SecretKey getSecretKey(){
+
         return Keys.hmacShaKeyFor(jwtSecretKey.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -27,7 +28,7 @@ public class JwtService {
         return Jwts.builder()
                 .subject(user.getId().toString())
                 .claim("email",user.getEmail())
-                .claim("roles", Set.of("ADMIN","USER"))
+                .claim("roles",user.getRoles().toString())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis()+1000*60))
                 .signWith(getSecretKey())
