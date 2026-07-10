@@ -1,5 +1,6 @@
 package com.Ankita.SecurityApplication.dto;
 
+import com.Ankita.SecurityApplication.entities.enums.Permission;
 import com.Ankita.SecurityApplication.entities.enums.Role;
 import lombok.Data;
 
@@ -13,6 +14,6 @@ public class SignUpDto {
    private String password;
    private  String name;
    private Set<Role> roles;
-
+   private Set<Permission> permissions;
 
 }
